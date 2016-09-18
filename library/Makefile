@@ -5,7 +5,6 @@ SHELL=/bin/bash
 DIRS  = utils
 DIRS += thread
 DIRS += socket
-DIRS += skf
 
 # target
 all install uninstall clean cleanall rebuild: $(DIRS)

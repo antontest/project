@@ -36,8 +36,9 @@ $(TARGET_INCS):
 	-$(LN) -sf  $(CUR_DIR)/$(@F) $@
 $(TARGET_PATH):
 	-@$(call make_dir,$@)
-$(TARGET) : $(TARGET_PATH) $(TARGET_INCS)
+$(TARGET) : $(TARGET_PATH) $(TARGET_INCS) $(TARGET_INC_PATH)
 	-@touch $@
+	-$(LN) -sf $(CUR_DIR) $(TARGET_INC_PATH)
 
 PHONY = rebuild clean cleanall install
 .PHONY : $(PHONY)
@@ -48,6 +49,7 @@ rebuild : cleanall all
 clean :
 	-$(RM) -f $(TARGET)
 	-$(RM) -f $(TARGET_INCS)
+	-$(RM) -f $(TARGET_INC_PATH)/$(shell basename $(CUR_DIR))
 
 # Clean this project and all dependencies
 cleanall : clean
