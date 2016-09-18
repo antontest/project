@@ -30,15 +30,17 @@ CUR_DIR=$(shell pwd)
 INCS = $(wildcard $(addsuffix /*.$(FILE_TYPE),$(SRC_PATH)))
 INC_NAME = $(notdir $(INCS))
 TARGET_INCS = $(addprefix $(TARGET_INC_PATH)/,$(INC_NAME))
+TARGET_LINK_INC_DIR = $(TARGET_INC_PATH)/$(shell basename $(CUR_DIR))
 
 all:$(TARGET)
 $(TARGET_INCS):
 	-$(LN) -sf  $(CUR_DIR)/$(@F) $@
 $(TARGET_PATH):
 	-@$(call make_dir,$@)
-$(TARGET) : $(TARGET_PATH) $(TARGET_INCS) $(TARGET_INC_PATH)
+$(TARGET_LINK_INC_DIR):
+	-$(LN) -sf $(CUR_DIR) $@
+$(TARGET) : $(TARGET_PATH) $(TARGET_INCS) $(TARGET_INC_PATH) $(TARGET_LINK_INC_DIR)
 	-@touch $@
-	-$(LN) -sf $(CUR_DIR) $(TARGET_INC_PATH)
 
 PHONY = rebuild clean cleanall install
 .PHONY : $(PHONY)
@@ -49,7 +51,7 @@ rebuild : cleanall all
 clean :
 	-$(RM) -f $(TARGET)
 	-$(RM) -f $(TARGET_INCS)
-	-$(RM) -f $(TARGET_INC_PATH)/$(shell basename $(CUR_DIR))
+	-$(RM) -f $(TARGET_LINK_INC_DIR)
 
 # Clean this project and all dependencies
 cleanall : clean
