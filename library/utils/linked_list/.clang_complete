@@ -1,0 +1,4 @@
+-I /usr/include/ 
+-I ~/usr/include/
+-I .
+-I ../../../incs/
